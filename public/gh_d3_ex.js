@@ -25,13 +25,13 @@ var drawGraph = function(){
       .scale(y)
       .orient("left");
 
-  var svg = d3.select("body").append("svg")
+  var svg = d3.select("#graph").append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  d3.json("public/graph_data.json", function(error, data) {
+  d3.json("graph_data.json", function(error, data) {
     appendToPage(data.top_commit_week, data.top_commit_day);
     data = data.graph_data;
     x.domain(data.map(function(d) { console.log(d); return d.letter; }));
