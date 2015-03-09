@@ -45,19 +45,19 @@ end
 
 export_json(content)
 
-p "Number of hashes from api repsonse. Should be 52 / true"
-p content.length
-p content.length == 52
-p "="*20
-p "Week number with most commits"
-p most_committed_week_number(content)
-p "="*20
-p "Day number with most commits"
-p most_committed_day_total(content)
-p "="*20
-p "Day in each week with most commits"
-v = most_committed_day(content).last
-day = v.first
-num_coms = v.last
-p "#{day} with #{num_coms} commits"
-p "="*20
+# p "Number of hashes from api repsonse. Should be 52 / true"
+# p content.length
+# p content.length == 52
+# p "="*20
+# p "Week number with most commits"
+# p most_committed_week_number(content)
+# p "="*20
+# p "Day number with most commits"
+# p most_committed_day_total(content)
+# p "="*20
+# p "Day in each week with most commits"
+# v = most_committed_day(content).last
+# day = v.first
+# num_coms = v.last
+# p "#{day} with #{num_coms} commits"
+# p "="*20
