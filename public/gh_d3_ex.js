@@ -7,9 +7,9 @@ function appendToPage(top_week, top_day){
 
 
 var drawGraph = function(){
-  var margin = {top: 20, right: 20, bottom: 30, left: 130},
-      width = 960 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom;
+  var margin = {top: 20, right: 20, bottom: 30, left: 100},
+      width = 760 - margin.left - margin.right,
+      height = 400 - margin.top - margin.bottom;
 
   var x = d3.scale.ordinal()
       .rangeRoundBands([0, width], .1);
