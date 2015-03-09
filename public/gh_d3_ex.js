@@ -31,7 +31,7 @@ var drawGraph = function(){
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  d3.json("graph_data.json", function(error, data) {
+  d3.json("public/graph_data.json", function(error, data) {
     appendToPage(data.top_commit_week, data.top_commit_day);
     data = data.graph_data;
     x.domain(data.map(function(d) { console.log(d); return d.letter; }));
