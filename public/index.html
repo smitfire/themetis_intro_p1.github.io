@@ -4,99 +4,122 @@
   <!-- <script src="underscore.js"></script> -->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="d3/d3.min.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
   <script src="gh_d3_ex.js"></script>
-  <style>
+    <style>
+      /*.container{
+        max-width:960px;
+        margin:10px auto;
+        display:table;
+      }*/
+      .bar {
+        fill: steelblue;
+      }
 
-    .bar {
-      fill: steelblue;
-    }
+      .bar:hover {
+        fill: brown;
+      }
 
-    .bar:hover {
-      fill: brown;
-    }
+      .axis {
+        font: 10px sans-serif;
+      }
 
-    .axis {
-      font: 10px sans-serif;
-    }
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+      }
 
-    .axis path,
-    .axis line {
-      fill: none;
-      stroke: #000;
-      shape-rendering: crispEdges;
-    }
+      .x.axis path {
+        /*display: none;*/
+      }
+      .day{
+        font-size: 1.2em;
+        color: red;
+      }
+      .number{
+        font-size: 1.2em;
+        color: blue;
+      }
+      blockquote{
+        background:rgba(244,244,244,0.8);
+        padding:20px;
+        font-size: 1.1em;
+        border-radius: 10px;
+        line-height: 22px;
+      }
+      code.ruby {
+          padding:10px; margin:10px auto;
+      }
 
-    .x.axis path {
-      /*display: none;*/
-    }
-    .day{
-      font-size: 1.2em;
-      color: red;
-    }
-    .number{
-      font-size: 1.2em;
-      color: blue;
-    }
-    blockquote{
-      background:rgba(244,244,244,0.8);
-      padding:20px;
-      font-size: 1.1em;
-      border-radius: 10px;
-      line-height: 22px;
-    }
-    code {
-        color: white;
-        background: rgba(54,54,54,1);
-    }
+      pre {
+          color: white;
+          padding: 10px 30px 0;
+          white-space: pre-wrap;
+          background: rgba(54,54,54,1);
+          margin:40px;
+      }
+    </style>
 
-    pre {
-        color: white;
-        padding: 20px;
-        white-space: pre-wrap;
-        background: rgba(54,54,54,1);
-        margin:40px;
-    }
-  </style>
+    </head>
 
-  </head>
+    <body>
+      <div class="container">
+        <div>
+          <h3>Tell us what week in the last year had the greatest number of commits?</h3>
+          <p id="q1"></p>
+          <blockquote>
+            I started with ruby and I ended up combining it with js for the extra credit part. I used ruby to get the json data using the Github api.
+            </blockquote>
+            <pre>
+              <code class="ruby">
+    JSON.parse(open("https://api.github.com/repos/mbostock/d3/stats/commit_activity").read)
+              </code>
+            </pre>
+            <blockquote>
+            I sorted the data by 'total', and returned the index of the last one.
+          </blockquote>
+          <pre>
+            <code class="ruby">
+    def sort_by_commit(array)
+      array.sort_by { |week| week["total"] }
+    end
 
-  <body>
+    def most_committed_week_number(array)
+      array.index(sort_by_commit(array).last) + 1
+    end
+            </code>
+          </pre>
+          <hr>
+          <h3>Over the last year, what day of the week had the most commits?</h3>
+          <p id="q2"></p>
+          <blockquote>
+            This one was a little trickier. I ended up creating an array of seven zeroes, iterating through the data, added each day of each week to the corresponding value in the array of zeroes. So week one day one was added to the zero array and day 2 to zero array day 2, etc. I then zipped the zero array (which was no longer made of zeros) to a an array of week day strings. Sorted by the count and grabbed the last one.
+          </blockquote>
+          <pre>
 
-  <div>
-    <h3>Tell us what week in the last year had the greatest number of commits?</h3>
-    <p id="q1"></p>
-    <blockquote>
-      I started with ruby and I ended up combining it with js for the extra credit part. I used ruby to get the json data using the Github api.
-      </blockquote>
-      <pre>
-        JSON.parse(open("https://api.github.com/repos/mbostock/d3/stats/commit_activity").read)
-      </pre>
-      <blockquote>
-      I sorted the data by 'total', and returned the index of the last one.
-    </blockquote>
-    <pre>
-      def sort_by_commit(array)
-        array.sort_by { |week| week["total"] }
-      end
-      
-      def most_committed_week_number(array)
-        array.index(sort_by_commit(array).last) + 1
-      end
-    </pre>
-    <hr>
-    <h3>Over the last year, what day of the week had the most commits?</h3>
-    <p id="q2"></p>
-    <blockquote>
-      This one was a little trickier. I ended up creating an array of seven zeroes, iterating through the data, added each day of each to the corresponding value in the array of zeroes. So week one day one was added to the zero array and day 2 to zero array day 2, etc. I then zipped the zero array (which was no longer made of zeros) to a an array of week day strings. Sorted by the count and grabbed the last one.
-    </blockquote>
-    <hr>
-    <h3>Graph the number of commits per day of the week.</h3>
-    <div id="graph"></div>
-    <blockquote>
-      As I mentioned. Once I had the necessary data, I constructed a hash to export to a json file and used the d3.json method to open, parse, display the data. Used almost all of the code I got from an example. I don't know how capable I am of doing this without the example. Ended up being a real bitch because chrome restricts requests from local environments. I went through this whole thing and ended up using a node server. That is why the repo has duplicated files. The local server reads from public and the live reads from root.
-    </blockquote>
-  </div>
+          <code class="ruby">
+    def most_committed_day(array)
+      week_arr = [0,0,0,0,0,0,0]
+      week_strings = %w(Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday)
+      array.each {|week| week["days"].each_with_index{|day,index| week_arr[index]+=day} }
+      Hash[week_strings.zip(week_arr)].sort_by{|key, val| val }
+    end
+          </code>
+          </pre>
+          <hr>
+          <h3>Graph the number of commits per day of the week.</h3>
+          <div id="graph"></div>
+          <blockquote>
+            As I mentioned. Once I had the necessary data, I constructed a hash to export to a json file and used the d3.json method to open, parse, display the data. Used almost all of the code I got from an example. I don't know how capable I am of doing this without the example. Ended up being a real bitch because chrome restricts requests from local environments. I went through this whole thing and ended up using a node server. That is why the repo has duplicated files. The local server reads from public and the live reads from root.
+          </blockquote>
+        </div>
+      </div>
 
-  </body>
+    </body>
 
-</html>
+  </html>

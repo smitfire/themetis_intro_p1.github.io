@@ -67,6 +67,9 @@ var drawGraph = function(){
     d.frequency = +d.frequency;
     return d;
   }
+  $('pre code').each(function(i, block) {
+      hljs.highlightBlock(block);
+    });
 }
 
 $(document).ready(drawGraph);
