@@ -5,7 +5,7 @@ require 'pp'
 
 
 content = JSON.parse(open("https://api.github.com/repos/mbostock/d3/stats/commit_activity").read)
-
+puts "stuff"
 def sort_by_commit(array)
   array.sort_by { |week| week["total"] }
 end
