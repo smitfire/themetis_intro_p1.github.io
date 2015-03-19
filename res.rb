@@ -3,9 +3,11 @@ require 'net/http'
 require 'open-uri'
 require 'pp'
 
+puts "whatever"
 
 content = JSON.parse(open("https://api.github.com/repos/mbostock/d3/stats/commit_activity").read)
-puts "stuff"
+
+
 def sort_by_commit(array)
   array.sort_by { |week| week["total"] }
 end
